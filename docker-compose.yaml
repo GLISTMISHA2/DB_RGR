@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:15-alpine
+    container_name: smarthome_db
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: your_secure_password
+      POSTGRES_DB: smarthome
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./schema.sql:/docker-entrypoint-initdb.d/1_schema.sql
+      - ./functions.sql:/docker-entrypoint-initdb.d/2_functions.sql
+      - ./demo.sql:/docker-entrypoint-initdb.d/3_demo.sql
+      - smarthome_data:/var/lib/postgresql/data
+
+volumes:
+  smarthome_data:
